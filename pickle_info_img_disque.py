@@ -1,72 +1,43 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed May 29 14:33:30 2019
 
-@author: malou
-"""
+##################### IMPORT
 
 import pickle
 
-pickle_f=open("dicos_img_disque/files.pickle","rb")
+##################### FUNCTION
 
-pickle_d=open("dicos_img_disque/dirs.pickle","rb")
+def pickle_open(source_file,cible_nom):
+    source_loaded=open(source_file,"rb")
+    source=pickle.load(source_loaded,encoding="utf-8")
+    with open(cible_nom,"w",encoding="utf-8") as cible:
+        cible.write('"path","name","date modif"\n')
+        for entry in source:
+            try:
+                cible.write('"'+entry+'","'+source[entry][0]+'","'+source[entry][1]+'"\n')
+            except UnicodeEncodeError:
+                path=list(entry)
+                name=list(source[entry][0])
+                date=source[entry][1]
+                cible.write('"')
+                for char in path:
+                    try:
+                        cible.write(char)
+                    except UnicodeEncodeError:
+                        cible.write("ERROR")
+                cible.write('","')
+                for char in name:
+                    try:
+                        cible.write(char)
+                    except UnicodeEncodeError:
+                        cible.write("ERROR")
+                cible.write('","'+date+'"\n"')
 
-files=pickle.load(pickle_f,encoding="utf-8")
-dirs=pickle.load(pickle_d,encoding="utf-8")
+##################### PROGRAM                
 
-#print(list(files['/media/veracrypt1/Images_Clones/IMG/M_conner/Word 5/Dictionnaire fran\udc8dais'][0]))
-
-"""test=files['/media/veracrypt1/Images_Clones/IMG/M_conner/Word 5/Dictionnaire fran\udc8dais'][0]
-if 	u'\udc8d' in test:
-    print("x")
-    test.replace(u'\udc8d',"FUCK")
-    f=open("test.txt","w")
-    f.write(test)
-    f.close()"""
-    
-with open("infos_img_disque/img_mac_derrida_files.csv","w",encoding="utf-8") as file:
-    file.write('"path","name","date modif"\n')
-    for entry in files:
-        try:
-            file.write('"'+entry+'","'+files[entry][0]+'","'+files[entry][1]+'"\n')
-        except UnicodeEncodeError:
-            path=list(entry)
-            name=list(files[entry][0])
-            date=files[entry][1]
-            file.write('"')
-            for char in path:
-                try:
-                    file.write(char)
-                except UnicodeEncodeError:
-                    file.write("ERROR")
-            file.write('","')
-            for char in name:
-                try:
-                    file.write(char)
-                except UnicodeEncodeError:
-                    file.write("ERROR")
-            file.write('","'+date+'"\n"')
-
-with open("infos_img_disque/img_mac_derrida_dirs.csv","w",encoding="utf-8") as file2:
-    file2.write('"path","name","date modif"\n')
-    for entry in dirs:
-        #print(entry)
-        try:
-            file2.write('"'+entry+'","'+dirs[entry][0]+'","'+dirs[entry][1]+'"\n')
-        except UnicodeEncodeError:
-            path=list(entry)
-            name=list(dirs[entry][0])
-            date=dirs[entry][1]
-            file2.write('"')
-            for char in path:
-                try:
-                    file2.write(char)
-                except UnicodeEncodeError:
-                    file2.write("ERROR")
-            file2.write('","')
-            for char in name:
-                try:
-                    file2.write(char)
-                except UnicodeEncodeError:
-                    file2.write("ERROR")
-            file2.write('","'+date+'"\n"')
+pickle_open("./dicos_img_disque/files.pickle","./infos_img_disque/img_mac_derrida_files.csv")
+pickle_open("./dicos_img_disque/dirs.pickle","./infos_img_disque/img_mac_derrida_dirs.csv")
+pickle_open("./dicos_img_disque/files_syquest1.pickle","./infos_img_disque/img_syquest1_files.csv")
+pickle_open("./dicos_img_disque/dirs_syquest1.pickle","./infos_img_disque/img_syquest1_dirs.csv")
+pickle_open("./dicos_img_disque/files_syquest2.pickle","./infos_img_disque/img_syquest2_files.csv")
+pickle_open("./dicos_img_disque/dirs_syquest2.pickle","./infos_img_disque/img_syquest2_dirs.csv")
+pickle_open("./dicos_img_disque/files_scsi_b03b.pickle","./infos_img_disque/img_scsi_b03b_files.csv")
