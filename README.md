@@ -3,17 +3,24 @@ Code that I developed during one of my internships. Mostly to gather, compare an
 
 All programs written for Python 3. Unless indicated otherwise, all should work under Windows, MacOS and Linux
 
-*essai_traitement_fichiers*
+*traitement_fichiers*
 <br>
   status: essential
   <br>
   input: address of the directory containing all the files to examine
   <br>
-  output: csv_f_derrida.csv & csv_d_derrida.csv (all files and directories name, path, modification dates compiled in csv file); csv_derrida_files.csv & csv_derrida_dir.csv (same as previous files but with unique id associated to each files or directory); csv_derrida_files2.csv (same as before for files, but with am MD5 hash key created by the program)
+  output: derrida_dirs.csv (list of all the directories encountered, with the unique id, name, path, and id of the directory each directory is in); derrida_files.csv (list of all the files encountered, with the unique id, name, path, latest modification date, MD5 key, and id of the directort each file is in)
   <br>
   info: this program can only work as-is under Windows. It uses the Windows command CertUtil, as well as the software HashConsole, to create the MD5 keys.
   <br>
   description: the program goes through the directory given as source and examines all files and directories contained in it, gathering information such as their name, their path, and their latest modification date. It also adds a uniaue id to each element and a MD5 hash key to all files. A MD5 key is a chain of letters and numbers that symbolizes the textual content of a file and allows quick comparisons between files to see if their content is identical or not.
+<br><br>
+*traitement_fichiers_bis*
+  status: auxiliary
+  input: path of the directory containing the mounted disk image(s)
+  output: PICKLE objects containing dictionaries with the information extracted from the disk images
+  info: the paths towards the directories have to be adjusted to create new objects. This is preferred over a program that would create all PICKLE objects for all disk images because some new ones might be uncovered, and it would be a waste of time to recreate the PICKLE objects for every disk image every time, as opposed to using the program to create one or two new PICKLE objects.
+  description: goes through all elements contained in the directory put in as input, and gathers informations in two dictionaries (one for files, one for directories) and then creates a PICKLE object each containing one dictionary. They will then be read and transformed into CSV files.
 <br><br>
 *compteur_cle_md5*
 <br>
@@ -87,3 +94,4 @@ All programs written for Python 3. Unless indicated otherwise, all should work u
   output: all_info_w_chronology.csv; chronologie_correspondance.csv; md5_correspondance.csv
   <br>
   description: from all the information gathered and cleaned, this program establishes chronological links between the files, recorded in chronologie_correspondance.csv in a format that allows the information to be transfered into the OrientDB database. It also establishes links based on file names and MD5 keys, recorded in md5_correspondance.csv in the same format. Finally, it also adds all this information to the file all_info_w_chronology, which is now the file gathering the most complete and accurate information about the files.
+  <br><br>
